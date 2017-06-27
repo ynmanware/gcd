@@ -1,7 +1,10 @@
 package com.ynm.service;
 
+import java.io.IOException;
 import java.util.List;
 
+import com.ynm.exception.ParameterPersistException;
+import com.ynm.exception.ParameterQueueException;
 import com.ynm.messaging.MessagingProducerHelper;
 import com.ynm.messaging.MessagingProducerHelperImpl;
 import com.ynm.model.Parameters;
@@ -16,9 +19,19 @@ public class ParameterServiceImpl implements ParameterService {
 	@Override
 	public void processParameters(Parameters params, String key) {
 		// publish to Q
-		messagingHelper.queueParameters(params, key);
+		try {
+			messagingHelper.queueParameters(params, key);
+		} catch (IOException e) {
+			throw new ParameterQueueException(
+					"Error occurred while queueing message");
+		}
 		// persist
-		parameterRepository.persistParameters(params);
+		try {
+			parameterRepository.persistParameters(params);
+		} catch (Exception e) {
+			throw new ParameterPersistException(
+					"Error occurred while persisting message");
+		}
 	}
 
 	@Override

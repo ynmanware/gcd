@@ -13,7 +13,6 @@ import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.ConsumerCancelledException;
 import com.rabbitmq.client.QueueingConsumer;
 import com.rabbitmq.client.ShutdownSignalException;
-import com.ynm.exception.ParameterQueueException;
 import com.ynm.model.Parameters;
 
 /**
@@ -26,47 +25,37 @@ public class MessagingConsumerHelperImpl implements MessagingConsumerHelper {
 
 	private ConnectionFactory factory = null;
 
-	public MessagingConsumerHelperImpl() {
+	public MessagingConsumerHelperImpl() throws KeyManagementException,
+			NoSuchAlgorithmException, URISyntaxException {
 		String uri = System.getenv("CLOUDAMQP_URL");
 		if (uri == null)
 			uri = CLOUDAMQP_URL;
 
 		factory = new ConnectionFactory();
-		try {
-			factory.setUri(uri);
-		} catch (KeyManagementException | NoSuchAlgorithmException
-				| URISyntaxException e) {
-			throw new ParameterQueueException(
-					"Error occurred initializing queue");
-		}
+		factory.setUri(uri);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws KeyManagementException,
+			NoSuchAlgorithmException, URISyntaxException, ShutdownSignalException, ConsumerCancelledException, ClassNotFoundException, IOException, InterruptedException {
 		MessagingConsumerHelperImpl ms = new MessagingConsumerHelperImpl();
-		Parameters params = ms.fetch("Yogesh");
+		Parameters params = ms.fetch("TODO");
+
+		System.out.println(params.getParam2());
 	}
 
-	public Parameters fetch(String key) {
+	public Parameters fetch(String key) throws IOException, ShutdownSignalException, ConsumerCancelledException, InterruptedException, ClassNotFoundException {
 		Parameters params = null;
 
-		try {
-			Connection connection = factory.newConnection();
-			Channel channel = connection.createChannel();
+		Connection connection = factory.newConnection();
+		Channel channel = connection.createChannel();
 
-			String queue = key; // queue name
+		String queue = key; // queue name
 
-			QueueingConsumer consumer = new QueueingConsumer(channel);
-			channel.basicConsume(queue, true, consumer);
-			QueueingConsumer.Delivery delivery = consumer.nextDelivery();
-			params = deserialize(delivery.getBody());
-		} catch (ShutdownSignalException | ConsumerCancelledException
-				| IOException | InterruptedException e) {
-			throw new ParameterQueueException(
-					"Error occurred while reading queue");
-		} catch (ClassNotFoundException e) {
-			throw new ParameterQueueException(
-					"Error occurred while reading queue");
-		}
+		QueueingConsumer consumer = new QueueingConsumer(channel);
+		channel.basicConsume(queue, true, consumer);
+		QueueingConsumer.Delivery delivery = consumer.nextDelivery();
+		params = deserialize(delivery.getBody());
+
 		return params;
 	}
 
