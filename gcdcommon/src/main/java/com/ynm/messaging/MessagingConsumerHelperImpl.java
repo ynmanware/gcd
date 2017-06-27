@@ -21,7 +21,7 @@ import com.ynm.model.Parameters;
  */
 public class MessagingConsumerHelperImpl implements MessagingConsumerHelper {
 
-	private final static String CLOUDAMQP_URL = "amqp://zzhqxuzx:8e1bGcemvk4B4SZlP3uHDMNDVi2bKYm3@sidewinder.rmq.cloudamqp.com/zzhqxuzx";
+	private final static String CLOUDAMQP_URL = "amqps://zzhqxuzx:8e1bGcemvk4B4SZlP3uHDMNDVi2bKYm3@sidewinder.rmq.cloudamqp.com/zzhqxuzx";
 
 	private ConnectionFactory factory = null;
 
