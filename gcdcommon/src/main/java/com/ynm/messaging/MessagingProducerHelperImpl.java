@@ -40,7 +40,7 @@ public class MessagingProducerHelperImpl implements MessagingProducerHelper {
 		Parameters params = new Parameters();
 		params.setParam1(1);
 		params.setParam2(3);
-		ms.queueParameters(params, "Yogesh");
+		ms.queueParameters(params, "TODO");
 	}
 
 	@Override

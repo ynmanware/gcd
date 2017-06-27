@@ -56,6 +56,9 @@ public class MessagingConsumerHelperImpl implements MessagingConsumerHelper {
 		QueueingConsumer.Delivery delivery = consumer.nextDelivery();
 		params = deserialize(delivery.getBody());
 
+		channel.close();
+		connection.close();
+		
 		return params;
 	}
 
