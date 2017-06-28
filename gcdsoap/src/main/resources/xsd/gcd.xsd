@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.ynm.com/schema/gcd" xmlns:tns="http://www.ynm.com/schema/gcd"
+	elementFormDefault="qualified">
+
+	<xsd:element name="gcdValueList">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element type="xsd:int" name="gcdValue" maxOccurs="unbounded"
+					minOccurs="0" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="gcdValue" type="xsd:int"></xsd:element>
+	<xsd:element name="gcdSum" type="xsd:int"></xsd:element>
+	<xsd:element name="gcdKey" type="xsd:string"></xsd:element>
+
+</xsd:schema>

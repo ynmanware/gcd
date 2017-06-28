@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:gcd="http://www.ynm.com/schema/gcd"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.ynm.com/service/gcd/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	name="gcd" targetNamespace="http://www.ynm.com/service/gcd/">
+	<wsdl:documentation>
+		This web service provides a single place for retail
+		clients to place orders.
+	</wsdl:documentation>
+	<wsdl:types>
+		<wsdl:documentation>
+			The schema is imported through the xsd:import
+			element.
+		</wsdl:documentation>
+		<xsd:schema targetNamespace="http://www.ynm.com/service/gcd/">
+			<xsd:import namespace="http://www.ynm.com/schema/gcd"
+				schemaLocation="../xsd/gcd.xsd"></xsd:import>
+		</xsd:schema>
+	</wsdl:types>
+
+	<!-- Define the type of response -->
+	<wsdl:message name="GCDValueResponse">
+		<wsdl:documentation>
+			Messages correspond to the operations in the port
+			type. Messages are given names to
+			uniquely identify them within the
+			enclosing port type. The value in this
+			attribute
+			refers to an element
+			in the schema.
+		</wsdl:documentation>
+		<wsdl:part element="gcd:gcdValue" name="GCDResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="GCDValueListResponse">
+		<wsdl:documentation>
+			Messages correspond to the operations in the port
+			type. Messages are given names to
+			uniquely identify them within the
+			enclosing port type. The value in this
+			attribute
+			refers to an element
+			in the schema.
+		</wsdl:documentation>
+		<wsdl:part element="gcd:gcdValueList" name="GCDValueListResponse" />
+	</wsdl:message>
+	
+	<wsdl:message name="GCDSumResponse">
+		<wsdl:documentation>
+			Messages correspond to the operations in the port
+			type. Messages are given names to
+			uniquely identify them within the
+			enclosing port type. The value in this
+			attribute
+			refers to an element
+			in the schema.
+		</wsdl:documentation>
+		<wsdl:part element="gcd:gcdSum" name="GCDSumResponse" />
+	</wsdl:message>
+
+	<wsdl:message name="GCDValueRequest">
+		<wsdl:documentation>
+			Messages correspond to the operations in the port
+			type. Messages are given names to
+			uniquely identify them within the
+			enclosing port type. The value in this
+			attribute
+			refers to an element
+			in the schema.
+		</wsdl:documentation>
+		<wsdl:part element="gcd:gcdKey" name="GCDKey" />
+	</wsdl:message>
+
+	<wsdl:message name="GCDValueListRequest">
+		<wsdl:documentation>
+			Messages correspond to the operations in the port
+			type. Messages are given names to
+			uniquely identify them within the
+			enclosing port type. The value in this
+			attribute
+			refers to an element
+			in the schema.
+		</wsdl:documentation>
+		<wsdl:part element="gcd:gcdKey" name="GCDKey1" />
+	</wsdl:message>
+	
+	<wsdl:message name="GCDSumRequest">
+		<wsdl:documentation>
+			Messages correspond to the operations in the port
+			type. Messages are given names to
+			uniquely identify them within the
+			enclosing port type. The value in this
+			attribute
+			refers to an element
+			in the schema.
+		</wsdl:documentation>
+		<wsdl:part element="gcd:gcdKey" name="GCDKey2" />
+	</wsdl:message>
+
+	<!-- Define the interface -->
+	<wsdl:portType name="GCDInterface">
+		<wsdl:documentation>
+			The port type of the WSDL is the first element we
+			will focus on. This element is comparable
+			to an interface. It defines
+			the type or types of services that are
+			available. As part of
+			generation, the port type has been given the name Orders to uniquely
+			identify it
+			in the document.
+		</wsdl:documentation>
+		<wsdl:operation name="getGCD">
+			<wsdl:input name="gcdInput" message="tns:GCDValueRequest" />
+			<wsdl:output name="gcdOutput" message="tns:GCDValueResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="getGCDList">
+			<wsdl:input name="gcdListInput" message="tns:GCDValueListRequest" />
+			<wsdl:output name="gcdListOutput" message="tns:GCDValueListResponse" />
+		</wsdl:operation>
+		<wsdl:operation name="getGCDSum">
+			<wsdl:input name="gcdSumInput" message="tns:GCDSumRequest" />
+			<wsdl:output name="gcdSumOutput" message="tns:GCDSumResponse" />
+		</wsdl:operation>
+	</wsdl:portType>
+
+	<!-- Define the implementation -->
+	<wsdl:binding name="GCDSOAP" type="tns:GCDInterface">
+		<wsdl:documentation>
+			Document literal sends a full XML document as the
+			message while RPC makes calls
+			to a remote object and provides features
+			for handling binding and
+			encoding. For most cases,
+			you will use
+			document literal for your WSDL due to its flexibility. The
+			binding
+			type
+			specifies that SOAP will be used as the protocol.
+		</wsdl:documentation>
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="getGCD">
+			<soap:operation soapAction="http://www.pluralsight.com/service/gcd/get" />
+			<wsdl:input name="gcdInput">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="gcdOutput">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getGCDList">
+			<soap:operation soapAction="http://www.pluralsight.com/service/gcd/getlist" />
+			<wsdl:input name="gcdListInput">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="gcdListOutput">
+				<soap:body use="literal"></soap:body>
+			</wsdl:output>
+		</wsdl:operation>
+
+		<wsdl:operation name="getGCDSum">
+			<soap:operation soapAction="http://www.pluralsight.com/service/gcd/getSum" />
+			<wsdl:input name="gcdSumInput">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="gcdSumOutput">
+				<soap:body use="literal"></soap:body>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+
+	<!-- Define actual endpoint -->
+	<wsdl:service name="GCD">
+		<wsdl:documentation>
+			The address path we provided will be configured as
+			part of the jax-ws endpoint CXF definition.
+			The service will map to an
+			interface in Java.
+		</wsdl:documentation>
+		<wsdl:port binding="tns:GCDSOAP" name="GCDSOAP">
+			<soap:address location="http://localhost:8080/gcdsoap/services/gcd" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
