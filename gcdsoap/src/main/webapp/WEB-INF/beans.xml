@@ -13,6 +13,10 @@
 
 	<jaxws:endpoint id="gcd" implementor="com.ynm.GCDEndpoint"
 		address="/services/gcd">
+		<jaxws:inInterceptors>
+			<ref bean="gcdServiceSoapHeaderInInterceptor" />
+		</jaxws:inInterceptors>
 	</jaxws:endpoint>
 
+	<bean id="gcdServiceSoapHeaderInInterceptor" class="com.ynm.GCDServiceSoapHeaderInInterceptor" />
 </beans>

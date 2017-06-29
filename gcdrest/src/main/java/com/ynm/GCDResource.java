@@ -10,23 +10,26 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.ynm.model.Parameters;
-import com.ynm.service.ParameterService;
-import com.ynm.service.ParameterServiceImpl;
+import com.ynm.service.GCDRestService;
 
 @Path("gcd")
 // http:localhost:8080/gcdrest/webapi/gcd
-public class ParametersResource {
+public class GCDResource {
 
-	ParameterService parameterService = new ParameterServiceImpl();
+	@Autowired
+	GCDRestService gcdService;
 
 	@POST
 	@Path("parameters")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response pushParameters(Parameters params) {
-		parameterService.processParameters(params, "TODO");	
-		return Response.ok().entity("Parameters Successfully Processed.")
+		String key = gcdService.processParameters(params, "TODO");
+		return Response.ok()
+				.entity("Parameters Successfully Processed with key " + key)
 				.build();
 	}
 
@@ -34,6 +37,6 @@ public class ParametersResource {
 	@Path("parameters")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public List<Parameters> getAllParameters() {
-		return parameterService.getAllParameters("TODO");
+		return gcdService.getAllParameters("TODO");
 	}
 }

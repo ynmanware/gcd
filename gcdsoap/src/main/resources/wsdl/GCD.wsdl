@@ -4,8 +4,8 @@
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	name="gcd" targetNamespace="http://www.ynm.com/service/gcd/">
 	<wsdl:documentation>
-		This web service provides a single place for retail
-		clients to place orders.
+		This web service provides a single place for
+		retrieving GCD results
 	</wsdl:documentation>
 	<wsdl:types>
 		<wsdl:documentation>
@@ -44,7 +44,7 @@
 		</wsdl:documentation>
 		<wsdl:part element="gcd:gcdValueList" name="GCDValueListResponse" />
 	</wsdl:message>
-	
+
 	<wsdl:message name="GCDSumResponse">
 		<wsdl:documentation>
 			Messages correspond to the operations in the port
@@ -58,7 +58,7 @@
 		<wsdl:part element="gcd:gcdSum" name="GCDSumResponse" />
 	</wsdl:message>
 
-	<wsdl:message name="GCDValueRequest">
+	<wsdl:message name="GCDRequest">
 		<wsdl:documentation>
 			Messages correspond to the operations in the port
 			type. Messages are given names to
@@ -68,33 +68,6 @@
 			refers to an element
 			in the schema.
 		</wsdl:documentation>
-		<wsdl:part element="gcd:gcdKey" name="GCDKey" />
-	</wsdl:message>
-
-	<wsdl:message name="GCDValueListRequest">
-		<wsdl:documentation>
-			Messages correspond to the operations in the port
-			type. Messages are given names to
-			uniquely identify them within the
-			enclosing port type. The value in this
-			attribute
-			refers to an element
-			in the schema.
-		</wsdl:documentation>
-		<wsdl:part element="gcd:gcdKey" name="GCDKey1" />
-	</wsdl:message>
-	
-	<wsdl:message name="GCDSumRequest">
-		<wsdl:documentation>
-			Messages correspond to the operations in the port
-			type. Messages are given names to
-			uniquely identify them within the
-			enclosing port type. The value in this
-			attribute
-			refers to an element
-			in the schema.
-		</wsdl:documentation>
-		<wsdl:part element="gcd:gcdKey" name="GCDKey2" />
 	</wsdl:message>
 
 	<!-- Define the interface -->
@@ -105,20 +78,20 @@
 			to an interface. It defines
 			the type or types of services that are
 			available. As part of
-			generation, the port type has been given the name Orders to uniquely
+			generation, the port type has been given the name GCD to uniquely
 			identify it
 			in the document.
 		</wsdl:documentation>
-		<wsdl:operation name="getGCD">
-			<wsdl:input name="gcdInput" message="tns:GCDValueRequest" />
+		<wsdl:operation name="gcd">
+			<wsdl:input name="gcdInput" message="tns:GCDRequest" />
 			<wsdl:output name="gcdOutput" message="tns:GCDValueResponse" />
 		</wsdl:operation>
-		<wsdl:operation name="getGCDList">
-			<wsdl:input name="gcdListInput" message="tns:GCDValueListRequest" />
+		<wsdl:operation name="gcdList">
+			<wsdl:input name="gcdListInput" message="tns:GCDRequest" />
 			<wsdl:output name="gcdListOutput" message="tns:GCDValueListResponse" />
 		</wsdl:operation>
-		<wsdl:operation name="getGCDSum">
-			<wsdl:input name="gcdSumInput" message="tns:GCDSumRequest" />
+		<wsdl:operation name="gcdSum">
+			<wsdl:input name="gcdSumInput" message="tns:GCDRequest" />
 			<wsdl:output name="gcdSumOutput" message="tns:GCDSumResponse" />
 		</wsdl:operation>
 	</wsdl:portType>
@@ -139,8 +112,8 @@
 		</wsdl:documentation>
 		<soap:binding style="document"
 			transport="http://schemas.xmlsoap.org/soap/http" />
-		<wsdl:operation name="getGCD">
-			<soap:operation soapAction="http://www.pluralsight.com/service/gcd/get" />
+		<wsdl:operation name="gcd">
+			<soap:operation soapAction="http://www.pluralsight.com/service/gcd" />
 			<wsdl:input name="gcdInput">
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -149,8 +122,8 @@
 			</wsdl:output>
 		</wsdl:operation>
 
-		<wsdl:operation name="getGCDList">
-			<soap:operation soapAction="http://www.pluralsight.com/service/gcd/getlist" />
+		<wsdl:operation name="gcdList">
+			<soap:operation soapAction="http://www.pluralsight.com/service/gcdList" />
 			<wsdl:input name="gcdListInput">
 				<soap:body use="literal" />
 			</wsdl:input>
@@ -159,8 +132,8 @@
 			</wsdl:output>
 		</wsdl:operation>
 
-		<wsdl:operation name="getGCDSum">
-			<soap:operation soapAction="http://www.pluralsight.com/service/gcd/getSum" />
+		<wsdl:operation name="gcdSum">
+			<soap:operation soapAction="http://www.pluralsight.com/service/gcdSum" />
 			<wsdl:input name="gcdSumInput">
 				<soap:body use="literal" />
 			</wsdl:input>

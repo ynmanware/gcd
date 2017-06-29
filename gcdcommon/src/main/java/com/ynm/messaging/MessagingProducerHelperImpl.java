@@ -6,12 +6,16 @@ import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
 
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.ynm.model.Parameters;
 
+@Service("MessagingProducerHelper")
 public class MessagingProducerHelperImpl implements MessagingProducerHelper {
 
 	private final static String CLOUDAMQP_URL = "amqps://zzhqxuzx:8e1bGcemvk4B4SZlP3uHDMNDVi2bKYm3@sidewinder.rmq.cloudamqp.com/zzhqxuzx";
@@ -44,7 +48,7 @@ public class MessagingProducerHelperImpl implements MessagingProducerHelper {
 	}
 
 	@Override
-	public void queueParameters(Parameters params, String key)
+	public String queueParameters(Parameters params, String key)
 			throws IOException {
 		// Recommended settings
 		factory.setRequestedHeartbeat(30);
@@ -53,7 +57,7 @@ public class MessagingProducerHelperImpl implements MessagingProducerHelper {
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 
-		String queue = key; // queue name
+		String queue = UUID.randomUUID().toString(); // queue name
 		boolean durable = false; // durable - RabbitMQ will never lose the
 									// queue
 									// if a crash occurs
@@ -67,7 +71,8 @@ public class MessagingProducerHelperImpl implements MessagingProducerHelper {
 		channel.queueDeclare(queue, durable, exclusive, autoDelete, null);
 
 		String exchangeName = "";
-		channel.basicPublish(exchangeName, key, null, serialize(params));
+		channel.basicPublish(exchangeName, queue, null, serialize(params));
+		return queue;
 
 	}
 

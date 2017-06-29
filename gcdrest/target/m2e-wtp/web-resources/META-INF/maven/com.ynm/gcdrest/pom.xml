@@ -55,15 +55,17 @@
 		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-moxy</artifactId>
-			<version>${jersey.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.glassfish.jersey.ext</groupId>
+			<artifactId>jersey-spring3</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.ynm</groupId>
 			<artifactId>gcdcommon</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 	</dependencies>
 	<properties>
 		<jersey.version>2.25</jersey.version>

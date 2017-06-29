@@ -8,15 +8,15 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.ynm.model.Parameters;
-import com.ynm.repository.ParametersRepository;
-import com.ynm.repository.ParametersRepositoryStub;
+import com.ynm.repository.GCDRepository;
+import com.ynm.repository.GCDRepositoryStub;
 
-public class ParameterServiceTest {
-	static ParametersRepository ps;
+public class GCDRestServiceTest {
+	static GCDRepository ps;
 
 	@BeforeClass
 	public static void testParameterService() throws Exception {
-		ps = new ParametersRepositoryStub();
+		ps = new GCDRepositoryStub();
 		Parameters params = new Parameters();
 		params.setParam1(10);
 		params.setParam1(20);

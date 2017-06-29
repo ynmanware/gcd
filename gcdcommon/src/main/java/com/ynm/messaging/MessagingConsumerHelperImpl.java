@@ -7,6 +7,8 @@ import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
+import org.springframework.stereotype.Service;
+
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -19,6 +21,7 @@ import com.ynm.model.Parameters;
  * @author Yogesh.Manware
  *
  */
+@Service("MessagingConsumerHelper")
 public class MessagingConsumerHelperImpl implements MessagingConsumerHelper {
 
 	private final static String CLOUDAMQP_URL = "amqps://zzhqxuzx:8e1bGcemvk4B4SZlP3uHDMNDVi2bKYm3@sidewinder.rmq.cloudamqp.com/zzhqxuzx";
@@ -36,14 +39,18 @@ public class MessagingConsumerHelperImpl implements MessagingConsumerHelper {
 	}
 
 	public static void main(String[] args) throws KeyManagementException,
-			NoSuchAlgorithmException, URISyntaxException, ShutdownSignalException, ConsumerCancelledException, ClassNotFoundException, IOException, InterruptedException {
+			NoSuchAlgorithmException, URISyntaxException,
+			ShutdownSignalException, ConsumerCancelledException,
+			ClassNotFoundException, IOException, InterruptedException {
 		MessagingConsumerHelperImpl ms = new MessagingConsumerHelperImpl();
 		Parameters params = ms.fetch("TODO");
 
 		System.out.println(params.getParam2());
 	}
 
-	public Parameters fetch(String key) throws IOException, ShutdownSignalException, ConsumerCancelledException, InterruptedException, ClassNotFoundException {
+	public Parameters fetch(String key) throws IOException,
+			ShutdownSignalException, ConsumerCancelledException,
+			InterruptedException, ClassNotFoundException {
 		Parameters params = null;
 
 		Connection connection = factory.newConnection();
@@ -58,7 +65,7 @@ public class MessagingConsumerHelperImpl implements MessagingConsumerHelper {
 
 		channel.close();
 		connection.close();
-		
+
 		return params;
 	}
 
