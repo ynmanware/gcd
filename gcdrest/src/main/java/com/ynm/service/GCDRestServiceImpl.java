@@ -21,29 +21,34 @@ public class GCDRestServiceImpl implements GCDRestService {
 	@Qualifier("MessagingProducerHelper")
 	private MessagingProducerHelper messagingHelper;
 
-	GCDRepository parameterRepository = new GCDRepositoryStub();
+	@Autowired
+	GCDRepository gcdRepository;
 
 	@Override
 	public String processParameters(Parameters params, String key) {
 		// persist
 		try {
-			parameterRepository.persistParameters(params);
+			gcdRepository.persistParameters(params);
 		} catch (Exception e) {
 			throw new ParameterPersistException(
 					"Error occurred while persisting message");
 		}
 
-		// publish to Q
+		return "TODO";
+		// pushToQueue(params, key);
+	}
+
+	@Override
+	public List<Parameters> getAllParameters(String key) {
+		return gcdRepository.getAllParameters(key);
+	}
+
+	private String pushToQueue(Parameters params, String key) {
 		try {
 			return messagingHelper.queueParameters(params, key);
 		} catch (IOException e) {
 			throw new ParameterQueueException(
 					"Error occurred while queueing message");
 		}
-	}
-
-	@Override
-	public List<Parameters> getAllParameters(String key) {
-		return parameterRepository.getAllParameters(key);
 	}
 }
