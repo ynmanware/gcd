@@ -1,5 +1,4 @@
 # Greatest Common Divisor
-To generate an EAR, you have to import the projects in eclipse and export EAR using gcddear project. (TODO: maven based build which woould support JBOSS deployement)
 
 # Features!
   - REST based API to provide input parameters
