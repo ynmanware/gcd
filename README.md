@@ -43,7 +43,8 @@ To generate an EAR, you have to import the projects in eclipse and export EAR us
     );
     ```
 > Mysql configuration is in gcdcommon->resource->jdbc.properties
-    
+#### Put the two web projects in the Tomcat server and start it!
+
 # Access REST API
 ### Submit Parameters
 Post - http://localhost:8080/gcdrest/webapi/gcd/parameters
