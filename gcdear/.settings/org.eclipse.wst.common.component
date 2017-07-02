@@ -8,5 +8,9 @@
         <dependent-module archiveName="gcdcommon.jar" deploy-path="/lib" handle="module:/resource/gcdcommon/gcdcommon">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="gcdsoap.war" deploy-path="/" handle="module:/resource/gcdsoap/gcdsoap">
+            <dependent-object/>
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
     </wb-module>
 </project-modules>

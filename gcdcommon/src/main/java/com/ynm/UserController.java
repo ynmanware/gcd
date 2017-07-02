@@ -8,7 +8,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +38,7 @@ public class UserController {
 					.iterator(); it.hasNext();) {
 				Entry<String, Long> entry = it.next();
 				if (entry.getKey().equals(key)) {
+					account.put(key, System.currentTimeMillis());
 					return;
 				}
 			}

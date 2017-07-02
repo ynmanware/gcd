@@ -5,6 +5,7 @@
 	<projects>
 		<project>gcdrest</project>
 		<project>gcdcommon</project>
+		<project>gcdsoap</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
