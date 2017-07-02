@@ -18,12 +18,12 @@ To generate an EAR, you have to import the projects in eclipse and export EAR us
  - Tomcat server (7.0)
 
 # Packaging
-  [gcdcommon](https://github.com/ynmanware/gcd/tree/master/gcdcommon) - all common components 
-  [gcdrest](https://github.com/ynmanware/gcd/tree/master/gcdrest) - REST API specific artifacts, it is an web application
-  [gcdsoap](https://github.com/ynmanware/gcd/tree/master/gcdsoap) 
+### [gcdcommon](https://github.com/ynmanware/gcd/tree/master/gcdcommon) - all common components 
+### [gcdrest](https://github.com/ynmanware/gcd/tree/master/gcdrest) - REST API specific artifacts, it is an web application
+### [gcdsoap](https://github.com/ynmanware/gcd/tree/master/gcdsoap) 
   - Soap API specific artifacts, it is an web application  
 
-[gcdear](https://github.com/ynmanware/gcd/tree/master/gcdear) - Eclipse based ear project, assist in generating EAR file.  
+### [gcdear](https://github.com/ynmanware/gcd/tree/master/gcdear) - Eclipse based ear project, assist in generating EAR file.  
 
 # Testing
    - Junit test cases are located in the standard location, mostly in the gcdcommon module and SOAP module
