@@ -7,11 +7,14 @@ import com.ynm.repository.domain.GCD;
 
 public interface GCDRepository {
 
-	void persistParameters(Parameters params, String key) throws Exception;
+	void persistParameters(Parameters params, String key);
 
 	List<Parameters> getAllParameters(String key);
 
 	void updateGCDResult(GCD gcd);
 
 	List<GCD> getGCDResults(String key);
+
+	void deleteGCD(String apiKey);
+
 }

@@ -18,8 +18,16 @@ public class GCDServiceImpl implements GCDservice {
 	@Autowired
 	private MessageQueueHandler messageQueueHandler;
 
+	public void setMessageQueueHandler(MessageQueueHandler messageQueueHandler) {
+		this.messageQueueHandler = messageQueueHandler;
+	}
+
 	@Autowired
 	GCDRepository gcdRepository;
+
+	public void setGcdRepository(GCDRepository gcdRepository) {
+		this.gcdRepository = gcdRepository;
+	}
 
 	@Override
 	public int gcd(String apiKey) throws JMSException {
@@ -58,8 +66,11 @@ public class GCDServiceImpl implements GCDservice {
 
 	@Override
 	public int gcdSum(String apiKey) {
-		// TODO Auto-generated method stub
-		return 0;
+		List<GCD> gcdList = gcdRepository.getGCDResults(apiKey);
+		int sum = 0;
+		for (GCD gcd : gcdList) {
+			sum += gcd.getResult();
+		}
+		return sum;
 	}
-
 }

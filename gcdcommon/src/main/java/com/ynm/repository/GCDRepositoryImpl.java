@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Service;
 
-import com.sivalabs.mybatisdemo.service.MyBatisUtil;
 import com.ynm.model.Parameters;
 import com.ynm.repository.domain.GCD;
 import com.ynm.repository.mappers.GCDMapper;
@@ -95,7 +94,7 @@ public class GCDRepositoryImpl implements GCDRepository {
 
 	@Override
 	public void updateGCDResult(GCD gcd) {
-		// TODO Auto-generated method stub
+
 		sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
 
 		try {
@@ -115,6 +114,20 @@ public class GCDRepositoryImpl implements GCDRepository {
 		try {
 			GCDMapper gcdMapper = sqlSession.getMapper(GCDMapper.class);
 			return gcdMapper.getGCDByApiKey(key);
+		} finally {
+			sqlSession.close();
+		}
+
+	}
+
+	@Override
+	public void deleteGCD(String apiKey) {
+		sqlSession = MyBatisUtil.getSqlSessionFactory().openSession();
+
+		try {
+			GCDMapper gcdMapper = sqlSession.getMapper(GCDMapper.class);
+			gcdMapper.deleteGCD(apiKey);
+			sqlSession.commit();
 		} finally {
 			sqlSession.close();
 		}

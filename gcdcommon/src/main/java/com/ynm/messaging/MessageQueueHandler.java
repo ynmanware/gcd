@@ -1,10 +1,8 @@
 package com.ynm.messaging;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,6 +26,7 @@ import com.ynm.model.Parameters;
 
 @Service
 public class MessageQueueHandler {
+
 	private static final String MQ_URL = "tcp://localhost:8008";
 
 	private static BrokerService broker = null;
@@ -73,21 +72,15 @@ public class MessageQueueHandler {
 		session.close();
 	}
 
-	private static byte[] serialize(Parameters params) throws IOException {
-		try (ByteArrayOutputStream b = new ByteArrayOutputStream()) {
-			try (ObjectOutputStream o = new ObjectOutputStream(b)) {
-				o.writeObject(params);
-			}
-			return b.toByteArray();
-		}
-	}
-
 	public Parameters fetch(String key) throws JMSException {
 		Session session = connection.createSession(false,
 				Session.AUTO_ACKNOWLEDGE);
 		Queue queue = session.createQueue(key);
 		MessageConsumer consumer = session.createConsumer(queue);
-		ObjectMessage df = (ObjectMessage) consumer.receive(10);
+		ObjectMessage df = (ObjectMessage) consumer.receive(20);
+		if (null == df) {
+			return null;
+		}
 		Parameters params = (Parameters) df.getObject();
 		session.close();
 		return params;

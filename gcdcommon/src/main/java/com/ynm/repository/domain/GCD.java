@@ -1,11 +1,23 @@
 package com.ynm.repository.domain;
 
+import com.ynm.model.Parameters;
+
 public class GCD {
 	private Long id;
 	private String apiKey;
 	private int param1;
 	private int param2;
 	private int result;
+
+	public GCD() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	public GCD(Parameters params, String key) {
+		this.param1 = params.getParam1();
+		this.param2 = params.getParam2();
+		this.apiKey = key;
+	}
 
 	public Long getId() {
 		return id;

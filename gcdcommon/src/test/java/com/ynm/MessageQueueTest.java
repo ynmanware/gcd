@@ -4,10 +4,11 @@ import java.io.IOException;
 
 import javax.jms.JMSException;
 
+import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.ynm.messaging.MessageQueueHandler;
 import com.ynm.model.Parameters;
@@ -18,43 +19,60 @@ import com.ynm.model.Parameters;
  */
 public class MessageQueueTest {
 
+	private static String TEST_QUEUE = "TEST_QUEUE";
+
+	private static MessageQueueHandler mq = new MessageQueueHandler();
+
 	static int i = 10;
 
-	 private static Logger logger = LoggerFactory.getLogger(MessageQueueTest.class);
-	 
-	
-	@Autowired
-	@Test
+	private static Logger logger = LoggerFactory
+			.getLogger(MessageQueueTest.class);
+
+	@AfterClass
+	// clear the q
+	public static void clearQueue() throws JMSException {
+		logger.info("Clearing queue");
+
+		while (null != mq.fetch(TEST_QUEUE)) {
+
+		}
+		i = 10;
+	}
+
 	public void ProduceMessages() throws JMSException, IOException {
-		
-		MessageQueueHandler mq = new MessageQueueHandler();
-
-		i = i + 5;
-
 		Parameters params = new Parameters();
 		params.setParam1(i);
-		params.setParam2(i + 10);
-
-		mq.queueParameters(params, "TEST_QUEUE");
-		// consumer
-		/*		
-*/}
-
-	@Test
-	public void TestWithTwoMessages() throws JMSException, IOException {
-		ProduceMessages();
-		ProduceMessages();
-
-		consumeMessages();
-		consumeMessages();
-
+		params.setParam2(i + 15);
+		mq.queueParameters(params, TEST_QUEUE);
+		i = i + 5;
 	}
 
 	@Test
-	public void consumeMessages() throws JMSException {
-		MessageQueueHandler mq = new MessageQueueHandler();
+	public void TestWithOneMessages() throws JMSException, IOException {
+		ProduceMessages();
+		
+		Parameters param = consumeMessages();
+		
+		Assert.assertTrue(param.getParam1() == 10);
+		Assert.assertTrue(param.getParam2() == 25);
+	}
 
-		Parameters params = mq.fetch("TEST_QUEUE");
-		System.out.println("PARAM1 : " + params.getParam1());
+	@Test
+	public void TestWithTwoMessages() throws JMSException, IOException, InterruptedException {
+		ProduceMessages();
+		ProduceMessages();
+
+		Thread.sleep(100);
+		Parameters param = consumeMessages();
+		Assert.assertTrue(param.getParam1() == 10);
+		Assert.assertTrue(param.getParam2() == 25);
+
+		param = consumeMessages();
+		Assert.assertTrue(param.getParam1() == 15);
+		Assert.assertTrue(param.getParam2() == 30);
+	}
+
+	public Parameters consumeMessages() throws JMSException {
+		return mq.fetch(TEST_QUEUE);
 	}
 }

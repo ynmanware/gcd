@@ -18,7 +18,8 @@
 		PARAM2 as param2,
 		API_KEY as apiKey,
 		RESULT
-		as result,
+		as
+		result,
 		ID as id
 		FROM GCD
 		WHERE API_KEY = #{apiKey}
@@ -58,8 +59,9 @@
 		= #{param2} AND RESULT IS null)
 	</update>
 
-	<delete id='GCD' parameterType='String'>
-		DELETE FROM GCD WHERE API_KEY =
+	<delete id='deleteGCD' parameterType='String'>
+		DELETE FROM GCD WHERE
+		API_KEY =
 		#{apiKey}
 	</delete>
 

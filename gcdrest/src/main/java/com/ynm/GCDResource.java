@@ -22,14 +22,15 @@ import com.ynm.service.GCDRestService;
 public class GCDResource {
 
 	@Autowired
-	GCDRestService gcdService;
-
+	private GCDRestService gcdService;
+	
 	@POST
 	@Path("parameters")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response pushParameters(Parameters params,
 			@HeaderParam("apiKey") String apiKey) {
+	
 		String key = gcdService.processParameters(params, apiKey);
 		return Response.ok()
 				.entity("Parameters Successfully Processed with key " + key)
