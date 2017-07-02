@@ -42,6 +42,7 @@
     );
     ```
 > Mysql configuration is in gcdcommon->resource->jdbc.properties
+> ActiveMq configuration is in MessageQueueHandler.java
 #### Put the two web projects in the Tomcat server and start it!
 
 # Access REST API
