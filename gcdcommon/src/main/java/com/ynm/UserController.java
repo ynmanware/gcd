@@ -21,9 +21,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("singleton")
 public class UserController {
-	static final long DURATION = TimeUnit.MINUTES.toMillis(3); // time for each
-	private static final Semaphore semaphore = new Semaphore(2);
-	static Map<String, Long> account = new HashMap<>();
+	private static final long DURATION = TimeUnit.MINUTES.toMillis(3); // time for each
+	private static final Semaphore semaphore = new Semaphore(20);
+	private static Map<String, Long> account = new HashMap<>();
 	private static Logger logger = LoggerFactory
 			.getLogger(UserController.class);
 
@@ -46,11 +46,11 @@ public class UserController {
 
 		// hold on until you get the lock
 		try {
-			logger.info("Trying to get Lock.class..............");
+			logger.info("Trying to get the Lock..............");
 			semaphore.acquire();
 			logger.info("Got the lock..............");
 		} catch (InterruptedException e) {
-			logger.error("Something wrong in sharing resurces");
+			logger.error("Something wrong in sharing resurces.");
 
 		}
 		synchronized (account) {
