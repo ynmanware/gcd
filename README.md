@@ -20,8 +20,7 @@ To generate an EAR, you have to import the projects in eclipse and export EAR us
 # Packaging
 ### [gcdcommon](https://github.com/ynmanware/gcd/tree/master/gcdcommon) - all common components 
 ### [gcdrest](https://github.com/ynmanware/gcd/tree/master/gcdrest) - REST API specific artifacts, it is an web application
-### [gcdsoap](https://github.com/ynmanware/gcd/tree/master/gcdsoap) 
-  - Soap API specific artifacts, it is an web application  
+### [gcdsoap](https://github.com/ynmanware/gcd/tree/master/gcdsoap) - Soap API specific artifacts, it is an web application  
 
 ### [gcdear](https://github.com/ynmanware/gcd/tree/master/gcdear) - Eclipse based ear project, assist in generating EAR file.  
 
