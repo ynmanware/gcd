@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN'
+  'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.ynm.repository.mappers.GCDMapper'>
+
+	<resultMap type='GCD' id='GCDResult'>
+		<id property='param1' column='PARAM1' />
+		<result property='param2' column='PARAM2' />
+		<result property='apiKey' column='API_KEY' />
+		<result property='result' column='RESULT' />
+		<result property='id' column='ID' />
+	</resultMap>
+
+	<select id='getGCDByApiKey' parameterType='String' resultMap='GCDResult'>
+		SELECT
+		PARAM1 as param1,
+		PARAM2 as param2,
+		API_KEY as apiKey,
+		RESULT
+		as result,
+		ID as id
+		FROM GCD
+		WHERE API_KEY = #{apiKey}
+	</select>
+
+	<resultMap type='Parameters' id='ParametersResult'>
+		<id property='param1' column='PARAM1' />
+		<result property='param2' column='PARAM2' />
+	</resultMap>
+
+	<select id='getParametersByApiKey' parameterType='String'
+		resultMap='ParametersResult'>
+		SELECT
+		PARAM1 as param1,
+		PARAM2 as param2 ,
+		API_KEY as apiKey,
+		RESULT
+		as result,
+		ID as id
+		FROM GCD
+		WHERE API_KEY = #{apiKey}
+	</select>
+
+
+	<insert id='insertParameters' parameterType='GCD'
+		useGeneratedKeys='true' keyProperty='id'>
+		INSERT INTO GCD(PARAM1, PARAM2,
+		API_KEY)
+		VALUES(#{param1}, #{param2}, #{apiKey})
+	</insert>
+
+	<update id='updateGCDResult' parameterType='GCD'>
+		UPDATE GCD
+		SET RESULT=
+		#{result}
+		WHERE (API_KEY = #{apiKey} AND PARAM1 = #{param1} AND PARAM2
+		= #{param2} AND RESULT IS null)
+	</update>
+
+	<delete id='GCD' parameterType='String'>
+		DELETE FROM GCD WHERE API_KEY =
+		#{apiKey}
+	</delete>
+
+</mapper>

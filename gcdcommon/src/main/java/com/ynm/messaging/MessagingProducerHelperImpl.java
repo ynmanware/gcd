@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.net.URISyntaxException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -40,15 +39,15 @@ public class MessagingProducerHelperImpl implements MessagingProducerHelper {
 	public static void main(String[] args) throws IOException,
 			KeyManagementException, NoSuchAlgorithmException,
 			URISyntaxException {
-		MessagingProducerHelper ms = new MessagingProducerHelperImpl();
-		Parameters params = new Parameters();
-		params.setParam1(1);
-		params.setParam2(3);
-		ms.queueParameters(params, "TODO");
+		ConnectionFactory factory = new ConnectionFactory();
+		factory.setRequestedHeartbeat(30);
+		factory.setConnectionTimeout(30000);
+		Connection connection = factory.newConnection();
+		Channel channel = connection.createChannel();
 	}
 
 	@Override
-	public String queueParameters(Parameters params, String key)
+	public void queueParameters(Parameters params, String key)
 			throws IOException {
 		// Recommended settings
 		factory.setRequestedHeartbeat(30);
@@ -57,7 +56,6 @@ public class MessagingProducerHelperImpl implements MessagingProducerHelper {
 		Connection connection = factory.newConnection();
 		Channel channel = connection.createChannel();
 
-		String queue = UUID.randomUUID().toString(); // queue name
 		boolean durable = false; // durable - RabbitMQ will never lose the
 									// queue
 									// if a crash occurs
@@ -68,12 +66,10 @@ public class MessagingProducerHelperImpl implements MessagingProducerHelper {
 									// last
 									// consumer unsubscribes
 
-		channel.queueDeclare(queue, durable, exclusive, autoDelete, null);
+		channel.queueDeclare(key, durable, exclusive, autoDelete, null);
 
 		String exchangeName = "";
-		channel.basicPublish(exchangeName, queue, null, serialize(params));
-		return queue;
-
+		channel.basicPublish(exchangeName, key, null, serialize(params));
 	}
 
 	/**

@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.rabbitmq.client.ConsumerCancelledException;
 import com.rabbitmq.client.ShutdownSignalException;
+import com.ynm.repository.domain.GCD;
 
 public interface GCDservice {
 
@@ -12,7 +13,7 @@ public interface GCDservice {
 			ConsumerCancelledException, ClassNotFoundException, IOException,
 			InterruptedException;
 
-	List<Integer> gcdList(String apiKey);
+	List<GCD> gcdList(String apiKey);
 
 	int gcdSum(String apiKey);
 }

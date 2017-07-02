@@ -1,6 +1,7 @@
 package com.ynm;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.jws.WebService;
 
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rabbitmq.client.ConsumerCancelledException;
 import com.rabbitmq.client.ShutdownSignalException;
+import com.ynm.repository.domain.GCD;
 import com.ynm.schema.gcd.GcdValueList;
 import com.ynm.schema.gcd.ObjectFactory;
 import com.ynm.service.gcd.GCDInterface;
@@ -51,19 +53,67 @@ public class GCDEndpoint implements GCDInterface {
 	@Override
 	public GcdValueList gcdList() {
 		// TODO Auto-generated method stub
-		ObjectFactory factory = new ObjectFactory();
+		final String apiKey;
+		if (PhaseInterceptorChain.getCurrentMessage().getExchange()
+				.get("apiKey") != null) {
+			apiKey = (String) PhaseInterceptorChain.getCurrentMessage()
+					.getExchange().get("apiKey");
 
-		GcdValueList gv = factory.createGcdValueList();
-		gv.getGcdValue().add(10);
-		gv.getGcdValue().add(12);
+		} else {
+			throw new RuntimeException("API key not provided");
+		}
 
-		return gv;
+		try {
+			List<GCD> gcdList = gcdservice.gcdList(apiKey);
+			ObjectFactory factory = new ObjectFactory();
+			GcdValueList gv = factory.createGcdValueList();
+
+			for (GCD gcd : gcdList) {
+				if (gcd.getResult() != 0) {
+					gv.getGcdValue().add(gcd.getResult());
+				}
+			}
+
+			return gv;
+
+		} catch (ShutdownSignalException | ConsumerCancelledException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 
 	@Override
 	public int gcdSum() {
 		// TODO Auto-generated method stub
-		return 100;
+		final String apiKey;
+		if (PhaseInterceptorChain.getCurrentMessage().getExchange()
+				.get("apiKey") != null) {
+			apiKey = (String) PhaseInterceptorChain.getCurrentMessage()
+					.getExchange().get("apiKey");
+
+		} else {
+			throw new RuntimeException("API key not provided");
+		}
+
+		int sum = 0;
+
+		try {
+			List<GCD> gcdList = gcdservice.gcdList(apiKey);
+			ObjectFactory factory = new ObjectFactory();
+			GcdValueList gv = factory.createGcdValueList();
+
+			for (GCD gcd : gcdList) {
+				sum += gcd.getResult();
+			}
+
+		} catch (ShutdownSignalException | ConsumerCancelledException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return sum;
 	}
 
 }

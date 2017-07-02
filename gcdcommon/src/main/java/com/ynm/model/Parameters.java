@@ -14,6 +14,15 @@ public class Parameters implements Serializable {
 	private int param1;
 	private int param2;
 
+	public Parameters() {
+
+	}
+
+	public Parameters(int p1, int p2) {
+		this.param1 = p1;
+		this.param2 = p2;
+	}
+
 	public int getParam1() {
 		return param1;
 	}

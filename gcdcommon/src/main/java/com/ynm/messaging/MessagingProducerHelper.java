@@ -10,5 +10,5 @@ import com.ynm.model.Parameters;
  */
 public interface MessagingProducerHelper {
 
-	String queueParameters(Parameters params, String key) throws IOException;
+	void queueParameters(Parameters params, String key) throws IOException;
 }

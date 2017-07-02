@@ -1,6 +1,7 @@
 package com.ynm;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import com.rabbitmq.client.ConsumerCancelledException;
 import com.rabbitmq.client.ShutdownSignalException;
 import com.ynm.messaging.MessagingConsumerHelper;
 import com.ynm.model.Parameters;
+import com.ynm.repository.GCDRepository;
+import com.ynm.repository.domain.GCD;
 
 @Service
 public class GCDServiceImpl implements GCDservice {
@@ -19,14 +22,24 @@ public class GCDServiceImpl implements GCDservice {
 	@Qualifier("MessagingConsumerHelper")
 	private MessagingConsumerHelper messagingConsumerHelper;
 
+	@Autowired
+	GCDRepository gcdRepository;
+
 	@Override
 	public int gcd(String apiKey) throws ShutdownSignalException,
 			ConsumerCancelledException, ClassNotFoundException, IOException,
 			InterruptedException {
 		Parameters params = messagingConsumerHelper.fetch(apiKey);
 		// calculate GCD
+		int result = gcd(params.getParam1(), params.getParam2());
+		GCD gcd = new GCD();
+		gcd.setApiKey(apiKey);
+		gcd.setParam1(params.getParam1());
+		gcd.setParam2(params.getParam2());
+		gcd.setResult(result);
+		gcdRepository.updateGCDResult(gcd);
 
-		return gcd(params.getParam1(), params.getParam2());
+		return result;
 	}
 
 	/**
@@ -45,9 +58,8 @@ public class GCDServiceImpl implements GCDservice {
 	}
 
 	@Override
-	public List<Integer> gcdList(String apiKey) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<GCD> gcdList(String apiKey) {
+		return gcdRepository.getGCDResults(apiKey);
 	}
 
 	@Override
