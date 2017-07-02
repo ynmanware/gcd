@@ -1,16 +1,13 @@
 package com.ynm;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.jms.JMSException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.rabbitmq.client.ConsumerCancelledException;
-import com.rabbitmq.client.ShutdownSignalException;
-import com.ynm.messaging.MessagingConsumerHelper;
+import com.ynm.messaging.MessageQueueHandler;
 import com.ynm.model.Parameters;
 import com.ynm.repository.GCDRepository;
 import com.ynm.repository.domain.GCD;
@@ -19,17 +16,14 @@ import com.ynm.repository.domain.GCD;
 public class GCDServiceImpl implements GCDservice {
 
 	@Autowired
-	@Qualifier("MessagingConsumerHelper")
-	private MessagingConsumerHelper messagingConsumerHelper;
+	private MessageQueueHandler messageQueueHandler;
 
 	@Autowired
 	GCDRepository gcdRepository;
 
 	@Override
-	public int gcd(String apiKey) throws ShutdownSignalException,
-			ConsumerCancelledException, ClassNotFoundException, IOException,
-			InterruptedException {
-		Parameters params = messagingConsumerHelper.fetch(apiKey);
+	public int gcd(String apiKey) throws JMSException {
+		Parameters params = messageQueueHandler.fetch(apiKey);
 		// calculate GCD
 		int result = gcd(params.getParam1(), params.getParam2());
 		GCD gcd = new GCD();

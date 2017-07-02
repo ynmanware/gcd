@@ -1,8 +1,8 @@
 package com.ynm;
 
-import java.io.IOException;
 import java.util.List;
 
+import javax.jms.JMSException;
 import javax.jws.WebService;
 
 import org.apache.cxf.phase.PhaseInterceptorChain;
@@ -41,8 +41,7 @@ public class GCDEndpoint implements GCDInterface {
 
 		try {
 			return gcdservice.gcd(apiKey);
-		} catch (ShutdownSignalException | ConsumerCancelledException
-				| ClassNotFoundException | IOException | InterruptedException e) {
+		} catch (JMSException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

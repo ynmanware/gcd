@@ -4,13 +4,14 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import javax.jms.JMSException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.ynm.exception.ParameterPersistException;
 import com.ynm.exception.ParameterQueueException;
-import com.ynm.messaging.MessagingProducerHelper;
+import com.ynm.messaging.MessageQueueHandler;
 import com.ynm.model.Parameters;
 import com.ynm.repository.GCDRepository;
 
@@ -18,8 +19,7 @@ import com.ynm.repository.GCDRepository;
 public class GCDRestServiceImpl implements GCDRestService {
 
 	@Autowired
-	@Qualifier("MessagingProducerHelper")
-	private MessagingProducerHelper messagingHelper;
+	private MessageQueueHandler messageQueueHandler;
 
 	@Autowired
 	GCDRepository gcdRepository;
@@ -36,7 +36,7 @@ public class GCDRestServiceImpl implements GCDRestService {
 			throw new ParameterPersistException(
 					"Error occurred while persisting message");
 		}
-		
+
 		pushToQueue(params, key);
 
 		return key;
@@ -49,8 +49,8 @@ public class GCDRestServiceImpl implements GCDRestService {
 
 	private void pushToQueue(Parameters params, String key) {
 		try {
-			messagingHelper.queueParameters(params, key);
-		} catch (IOException e) {
+			messageQueueHandler.queueParameters(params, key);
+		} catch (IOException | JMSException e) {
 			throw new ParameterQueueException(
 					"Error occurred while queueing message");
 		}

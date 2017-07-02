@@ -59,7 +59,7 @@ public class MessagingConsumerHelperImpl implements MessagingConsumerHelper {
 		String queue = key; // queue name
 
 		QueueingConsumer consumer = new QueueingConsumer(channel);
-		channel.basicConsume(queue, true, consumer);
+		String df = channel.basicConsume(queue, true, consumer);
 		QueueingConsumer.Delivery delivery = consumer.nextDelivery();
 		params = deserialize(delivery.getBody());
 

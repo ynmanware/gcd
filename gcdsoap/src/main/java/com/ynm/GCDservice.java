@@ -1,17 +1,14 @@
 package com.ynm;
 
-import java.io.IOException;
 import java.util.List;
 
-import com.rabbitmq.client.ConsumerCancelledException;
-import com.rabbitmq.client.ShutdownSignalException;
+import javax.jms.JMSException;
+
 import com.ynm.repository.domain.GCD;
 
 public interface GCDservice {
 
-	int gcd(String apiKey) throws ShutdownSignalException,
-			ConsumerCancelledException, ClassNotFoundException, IOException,
-			InterruptedException;
+	int gcd(String apiKey) throws JMSException;
 
 	List<GCD> gcdList(String apiKey);
 
